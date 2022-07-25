@@ -3,12 +3,14 @@ package com.dining.diningAPI.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class Restaurant {
 
   @NonNull
   private String name;
-  
+
   private Float overallScore = null;
   private Float peanutScore = null;
   private Float eggScore = null;
