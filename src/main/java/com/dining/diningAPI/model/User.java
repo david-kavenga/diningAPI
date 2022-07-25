@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +24,8 @@ public class User {
 
   @NonNull
   @Column(unique=true)
-  private String name;
+  @Setter(value = AccessLevel.NONE)
+  private String displayName;
 
   @NonNull
   private String city;

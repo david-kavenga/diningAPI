@@ -1,5 +1,6 @@
 package com.dining.diningAPI.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,6 +22,15 @@ public class Restaurant {
 
   @NonNull
   private String name;
+
+  @NonNull
+  private String city;
+
+  @NonNull
+  private String state;
+
+  @NonNull
+  private String zipcode;
 
   private Float overallScore = null;
   private Float peanutScore = null;
