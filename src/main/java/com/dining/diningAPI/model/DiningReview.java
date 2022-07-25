@@ -16,6 +16,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class DiningReview {
+  public enum Status {PENDING, ACCEPTED, REJECTED};
+
   @Id
   @GeneratedValue
   private Long id;
@@ -26,6 +28,7 @@ public class DiningReview {
   @NonNull
   private Long restaurantId;
 
+  private Status reviewStatus = Status.PENDING;
   private Integer peanutScore;
   private Integer eggScore;
   private Integer dairyScore;
