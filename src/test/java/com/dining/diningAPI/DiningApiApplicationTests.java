@@ -1,4 +1,4 @@
-package com.dining.DiningAPI;
+package com.dining.diningAPI;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

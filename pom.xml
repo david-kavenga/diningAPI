@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dining</groupId>
-	<artifactId>DiningAPI</artifactId>
+	<artifactId>diningAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>DiningAPI</name>
+	<name>diningAPI</name>
 	<description>A crud API for reviewing dining</description>
 	<properties>
 		<java.version>11</java.version>
