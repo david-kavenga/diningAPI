@@ -31,17 +31,17 @@ public class Restaurant {
   private String state;
 
   @NonNull
-  private String zipCode;
+  private String zipcode;
 
   private Float overallScore = null;
   private Float peanutScore = null;
   private Float eggScore = null;
   private Float dairyScore = null;
   
-  @Column(columnDefinition = "integer default 0") private Integer peanutScoreSum;
-  @Column(columnDefinition = "integer default 0") private Integer eggScoreSum;
-  @Column(columnDefinition = "integer default 0") private Integer dairyScoreSum;
-  @Column(columnDefinition = "integer default 0") private Integer peanutResponseCount;
-  @Column(columnDefinition = "integer default 0") private Integer eggResponseCount;
-  @Column(columnDefinition = "integer default 0") private Integer dairyResponseCount;
+  @Column(columnDefinition = "integer default 0") private Integer peanutScoreSum = 0;
+  @Column(columnDefinition = "integer default 0") private Integer eggScoreSum = 0;
+  @Column(columnDefinition = "integer default 0") private Integer dairyScoreSum = 0;
+  @Column(columnDefinition = "integer default 0") private Integer peanutResponseCount = 0;
+  @Column(columnDefinition = "integer default 0") private Integer eggResponseCount = 0;
+  @Column(columnDefinition = "integer default 0") private Integer dairyResponseCount = 0;
 }
