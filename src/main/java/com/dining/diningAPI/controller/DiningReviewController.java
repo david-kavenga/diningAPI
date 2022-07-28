@@ -45,6 +45,9 @@ public class DiningReviewController {
 
   @PostMapping("/users")
   public User addUser(@RequestBody User newUser){
+    if(newUser.getDisplayName() == null || newUser.getCity() == null || newUser.getState() == null || newUser.getZipcode() == null || newUser.getPeanutAllergyInterest() == null || newUser.getEggAllergyInterest() == null || newUser.getDairyAllergyInterest() == null){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One or more required inputs were null");
+    }
     return userRepository.save(newUser);
   }
 
