@@ -1,5 +1,6 @@
 package com.dining.diningAPI.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,10 +37,11 @@ public class Restaurant {
   private Float peanutScore = null;
   private Float eggScore = null;
   private Float dairyScore = null;
-  private Integer peanutScoreSum;
-  private Integer eggScoreSum;
-  private Integer dairyScoreSum;
-  private Integer peanutResponseCount;
-  private Integer eggResponseCount;
-  private Integer dairyResponseCount;
+  
+  @Column(columnDefinition = "integer default 0") private Integer peanutScoreSum;
+  @Column(columnDefinition = "integer default 0") private Integer eggScoreSum;
+  @Column(columnDefinition = "integer default 0") private Integer dairyScoreSum;
+  @Column(columnDefinition = "integer default 0") private Integer peanutResponseCount;
+  @Column(columnDefinition = "integer default 0") private Integer eggResponseCount;
+  @Column(columnDefinition = "integer default 0") private Integer dairyResponseCount;
 }
