@@ -10,5 +10,5 @@ import com.dining.diningAPI.model.*;
 @Repository
 public interface DiningReviewRepository extends CrudRepository<DiningReview, Long> {
   public List<DiningReview> findAllByReviewStatus(DiningReview.Status reviewStatus);
-  public List<DiningReview> findAllByRestaurantIdAndReviewStatus(DiningReview.Status reviewStatus);
+  public List<DiningReview> findAllByRestaurantIdAndReviewStatus(String restaurant, DiningReview.Status reviewStatus);
 }
