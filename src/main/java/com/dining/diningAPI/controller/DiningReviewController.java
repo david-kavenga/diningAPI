@@ -83,6 +83,11 @@ public class DiningReviewController {
     return userToUpdate;
   }
 
+  @GetMapping("/restaurants")
+  public Iterable<Restaurant> getRestaurants(){
+    return restaurantRepository.findAll();
+  }
+
   public Boolean isValidUser(String displayName){
     Optional<User> userOptional = userRepository.findByDisplayName(displayName);
     return (!userOptional.isEmpty());
