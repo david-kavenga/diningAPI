@@ -35,7 +35,13 @@ public class DiningReviewController {
     if(userOptional.isEmpty()){
       throw new QueryNotSupportedException("Error: Query not supported. User of specified display name not found.");
     }
-
     return userOptional.get();
   }
+
+  public Boolean isValidUser(String displayName){
+    Optional<User> userOptional = userRepository.findByDisplayName(displayName);
+    return (!userOptional.isEmpty());
+  }
+
+
 }
