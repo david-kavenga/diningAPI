@@ -1,8 +1,8 @@
 package com.dining.diningAPI.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Restaurant {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
 
   @NonNull
@@ -30,7 +30,7 @@ public class Restaurant {
   private String state;
 
   @NonNull
-  private String zipcode;
+  private String zipCode;
 
   private Float overallScore = null;
   private Float peanutScore = null;
@@ -40,6 +40,6 @@ public class Restaurant {
   private Integer eggScoreSum;
   private Integer dairyScoreSum;
   private Integer peanutResponseCount;
-  private Integer eggResposeCount;
+  private Integer eggResponseCount;
   private Integer dairyResponseCount;
 }

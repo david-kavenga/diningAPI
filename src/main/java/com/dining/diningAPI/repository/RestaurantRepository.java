@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.dining.diningAPI.model.*;
 
 @Repository
-public interface RestaurantRepository extends CrudRepository<DiningReview, Long> {
+public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
   public Optional<Restaurant> findByNameAndZipCode(String name, String zipCode);
   public List<Restaurant> findByZipCodeAndPeanutResponseCountGreaterThanOrderByPeanutScoreDesc(String zipCode, Integer count);
   public List<Restaurant> findByZipCodeAndEggResponseCountGreaterThanOrderByEggScoreDesc(String zipCode, Integer count);

@@ -3,7 +3,9 @@ package com.dining.diningAPI.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,10 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Table(name = "Users")
 public class User {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
 
   @NonNull
