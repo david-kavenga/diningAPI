@@ -84,6 +84,4 @@ public class DiningReviewController {
     Optional<User> userOptional = userRepository.findByDisplayName(displayName);
     return (!userOptional.isEmpty());
   }
-
-
 }
