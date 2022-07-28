@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -86,6 +87,43 @@ public class DiningReviewController {
   @GetMapping("/restaurants")
   public Iterable<Restaurant> getRestaurants(){
     return restaurantRepository.findAll();
+  }
+
+  @GetMapping("/restaurants/{id}")
+  public Restaurant getRestaurantById(@PathVariable Long id){
+    Optional<Restaurant> restaurantOptional = restaurantRepository.findById(id);
+    if(restaurantOptional.isEmpty()){
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No restaurant with specified id");
+    }
+    return restaurantOptional.get();
+  }
+
+  @GetMapping("/restaurants/search")
+  public Iterable<Restaurant> getRestaurantsByZipcode(@RequestParam(name="zipcode", required = true) String zipcode, @RequestParam(name="allergy", required = true) String allergy){
+    switch(allergy){
+      case "peanut": 
+        return restaurantRepository.findByZipcodeAndPeanutResponseCountGreaterThanOrderByPeanutScoreDesc(zipcode, 0);
+      case "egg":
+        return restaurantRepository.findByZipcodeAndEggResponseCountGreaterThanOrderByEggScoreDesc(zipcode, 0);
+      case "dairy":
+        return restaurantRepository.findByZipcodeAndDairyResponseCountGreaterThanOrderByDairyScoreDesc(zipcode, 0);
+      default:
+        return restaurantRepository.findByZipcode(zipcode);
+    }
+    
+  }
+
+  @PostMapping("/restaurants")
+  public Restaurant addRestaurant(@RequestBody Restaurant newRestaurant){
+    if(newRestaurant.getName() == null || newRestaurant.getCity() == null || newRestaurant.getState() == null || newRestaurant.getZipcode() == null){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One or more required inputs were null");
+    }
+    Optional<Restaurant> optionalRestaurant = restaurantRepository.findByNameAndZipcode(newRestaurant.getName(), newRestaurant.getZipcode());
+    if(optionalRestaurant.isPresent()){
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "A restaurant already exists with the same name and zipcode");
+    }
+
+    return restaurantRepository.save(newRestaurant);
   }
 
   public Boolean isValidUser(String displayName){
