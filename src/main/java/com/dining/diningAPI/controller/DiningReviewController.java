@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.dining.diningAPI.exceptions.QueryNotSupportedException;
 import com.dining.diningAPI.model.*;
+import com.dining.diningAPI.model.DiningReview.Status;
 import com.dining.diningAPI.repository.DiningReviewRepository;
 import com.dining.diningAPI.repository.RestaurantRepository;
 import com.dining.diningAPI.repository.UserRepository;
@@ -110,7 +111,6 @@ public class DiningReviewController {
       default:
         return restaurantRepository.findByZipcode(zipcode);
     }
-    
   }
 
   @PostMapping("/restaurants")
@@ -126,8 +126,107 @@ public class DiningReviewController {
     return restaurantRepository.save(newRestaurant);
   }
 
+  @PostMapping("/users/{displayName}/review")
+  public DiningReview addReview(@RequestBody DiningReview newReview, @PathVariable String displayName){
+    if(!isValidUser(displayName)){
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DisplayName specified does not match a user");
+    }
+    if(!isValidRestaurant(newReview.getRestaurantId())){
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DisplayName specified does not match a restaurant");
+    }
+    if(newReview.getZipcode() == null || (newReview.getPeanutScore() == null && newReview.getEggScore() == null && newReview.getDairyScore() == null)){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One or more required inputs were null");
+    }
+
+    newReview.setDisplayName(displayName);
+    newReview.setReviewStatus(Status.PENDING);
+
+    return diningReviewRepository.save(newReview);
+  }
+
+  @GetMapping("/admin/reviews/pending")
+  public Iterable<DiningReview> getPendingReviews(){
+    return diningReviewRepository.findAllByReviewStatus(Status.PENDING);
+  }
+
+  @PutMapping("/admin/reviews/pending")
+  public DiningReview updateReview(@RequestBody DiningReview newReview){
+    Optional<DiningReview> diningReviewOptional = diningReviewRepository.findById(newReview.getId());
+    if(!diningReviewOptional.isPresent()){
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DisplayName specified does not match a user");
+    }
+
+    DiningReview updateReview = diningReviewOptional.get();
+
+    if(newReview.getReviewStatus() == null){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing approval status");
+    }
+
+    updateReview.setReviewStatus(newReview.getReviewStatus());
+
+    DiningReview completedReview = diningReviewRepository.save(updateReview);
+
+    if(updateReview.getReviewStatus() == Status.ACCEPTED){
+      updateRestaraurantScores(completedReview.getRestaurantId());
+    }
+
+    return completedReview;
+  }
+
   public Boolean isValidUser(String displayName){
     Optional<User> userOptional = userRepository.findByDisplayName(displayName);
     return (!userOptional.isEmpty());
+  }
+
+  public Boolean isValidRestaurant(Long id){
+    Optional<Restaurant> restaurantOptional = restaurantRepository.findById(id);
+    return (!restaurantOptional.isEmpty());
+  }
+
+  public void updateRestaraurantScores(Long id){
+    Iterable<DiningReview> approvedReviews = getApprovedReviewsByRestaurant(id);
+    Optional<Restaurant> restaurantOptional = restaurantRepository.findById(id);
+    Restaurant restaurant = restaurantOptional.get();
+
+    Float peanutScoreSum = 0f;
+    Float eggScoreSum = 0f;
+    Float dairyScoreSum = 0f;
+    Integer peanutResponseCount = 0;
+    Integer eggResponseCount = 0;
+    Integer dairyResponseCount = 0;
+
+    for(DiningReview review : approvedReviews){
+      if(review.getPeanutScore() != null){
+        peanutResponseCount++;
+        peanutScoreSum += review.getPeanutScore();
+      }
+      if(review.getEggScore() != null){
+        eggResponseCount++;
+        eggScoreSum += review.getEggScore();
+      }
+      if(review.getDairyScore() != null){
+        dairyResponseCount++;
+        dairyScoreSum += review.getDairyScore();
+      }
+    }
+
+    if(peanutResponseCount > 0){
+      restaurant.setPeanutScore((peanutScoreSum/peanutResponseCount));
+    }
+    if(eggResponseCount > 0){
+      restaurant.setEggScore((eggScoreSum/eggResponseCount));
+    }
+    if(eggResponseCount > 0){
+      restaurant.setDairyScore((dairyScoreSum/dairyResponseCount));
+    }
+    if((peanutResponseCount + eggResponseCount + dairyResponseCount) > 0){
+      restaurant.setOverallScore((peanutScoreSum + eggScoreSum + dairyScoreSum)/(peanutResponseCount + eggResponseCount + dairyResponseCount));
+    }
+    
+    restaurantRepository.save(restaurant);
+  }
+
+  public Iterable<DiningReview> getApprovedReviewsByRestaurant(Long id){
+    return diningReviewRepository.findAllByRestaurantIdAndReviewStatus(id, Status.ACCEPTED);
   }
 }
