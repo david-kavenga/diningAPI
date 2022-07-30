@@ -27,7 +27,7 @@ public class DiningReview {
   private String displayName;
 
   @NonNull
-  private String zipCode;
+  private String zipcode;
 
   @NonNull
   private Long restaurantId;
