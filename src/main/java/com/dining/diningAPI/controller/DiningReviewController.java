@@ -132,7 +132,7 @@ public class DiningReviewController {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DisplayName specified does not match a user");
     }
     if(!isValidRestaurant(newReview.getRestaurantId())){
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DisplayName specified does not match a user");
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DisplayName specified does not match a restaurant");
     }
     if(newReview.getZipcode() == null || (newReview.getPeanutScore() == null && newReview.getEggScore() == null && newReview.getDairyScore() == null)){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One or more required inputs were null");
