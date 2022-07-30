@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
@@ -38,10 +40,10 @@ public class Restaurant {
   private Float eggScore = null;
   private Float dairyScore = null;
   
-  @Column(columnDefinition = "integer default 0") private Integer peanutScoreSum = 0;
-  @Column(columnDefinition = "integer default 0") private Integer eggScoreSum = 0;
-  @Column(columnDefinition = "integer default 0") private Integer dairyScoreSum = 0;
-  @Column(columnDefinition = "integer default 0") private Integer peanutResponseCount = 0;
-  @Column(columnDefinition = "integer default 0") private Integer eggResponseCount = 0;
-  @Column(columnDefinition = "integer default 0") private Integer dairyResponseCount = 0;
+  @Transient @Column(columnDefinition = "integer default 0") private Integer peanutScoreSum = 0;
+  @Transient @Column(columnDefinition = "integer default 0") private Integer eggScoreSum = 0;
+  @Transient @Column(columnDefinition = "integer default 0") private Integer dairyScoreSum = 0;
+  @Transient @Column(columnDefinition = "integer default 0") private Integer peanutResponseCount = 0;
+  @Transient @Column(columnDefinition = "integer default 0") private Integer eggResponseCount = 0;
+  @Transient @Column(columnDefinition = "integer default 0") private Integer dairyResponseCount = 0;
 }

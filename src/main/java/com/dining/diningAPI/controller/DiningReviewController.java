@@ -102,11 +102,11 @@ public class DiningReviewController {
   public Iterable<Restaurant> getRestaurantsByZipcode(@RequestParam(name="zipcode", required = true) String zipcode, @RequestParam(name="allergy", required = true) String allergy){
     switch(allergy){
       case "peanut": 
-        return restaurantRepository.findByZipcodeAndPeanutResponseCountGreaterThanOrderByPeanutScoreDesc(zipcode, 0);
+        return restaurantRepository.findByZipcodeAndPeanutScoreIsNotNullOrderByPeanutScoreDesc(zipcode);
       case "egg":
-        return restaurantRepository.findByZipcodeAndEggResponseCountGreaterThanOrderByEggScoreDesc(zipcode, 0);
+        return restaurantRepository.findByZipcodeAndEggScoreIsNotNullOrderByEggScoreDesc(zipcode);
       case "dairy":
-        return restaurantRepository.findByZipcodeAndDairyResponseCountGreaterThanOrderByDairyScoreDesc(zipcode, 0);
+        return restaurantRepository.findByZipcodeAndDairyScoreIsNotNullOrderByDairyScoreDesc(zipcode);
       default:
         return restaurantRepository.findByZipcode(zipcode);
     }

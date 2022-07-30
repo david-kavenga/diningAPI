@@ -12,7 +12,7 @@ import com.dining.diningAPI.model.*;
 public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
   public Optional<Restaurant> findByNameAndZipcode(String name, String zipcode);
   public List<Restaurant> findByZipcode(String zipcode);
-  public List<Restaurant> findByZipcodeAndPeanutResponseCountGreaterThanOrderByPeanutScoreDesc(String zipcode, Integer count);
-  public List<Restaurant> findByZipcodeAndEggResponseCountGreaterThanOrderByEggScoreDesc(String zipcode, Integer count);
-  public List<Restaurant> findByZipcodeAndDairyResponseCountGreaterThanOrderByDairyScoreDesc(String zipcode, Integer count);
+  public List<Restaurant> findByZipcodeAndPeanutScoreIsNotNullOrderByPeanutScoreDesc(String zipcode);
+  public List<Restaurant> findByZipcodeAndEggScoreIsNotNullOrderByEggScoreDesc(String zipcode);
+  public List<Restaurant> findByZipcodeAndDairyScoreIsNotNullOrderByDairyScoreDesc(String zipcode);
 }
