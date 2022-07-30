@@ -10,8 +10,9 @@ import com.dining.diningAPI.model.*;
 
 @Repository
 public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
-  public Optional<Restaurant> findByNameAndZipCode(String name, String zipCode);
-  public List<Restaurant> findByZipCodeAndPeanutResponseCountGreaterThanOrderByPeanutScoreDesc(String zipCode, Integer count);
-  public List<Restaurant> findByZipCodeAndEggResponseCountGreaterThanOrderByEggScoreDesc(String zipCode, Integer count);
-  public List<Restaurant> findByZipCodeAndDairyResponseCountGreaterThanOrderByDairyScoreDesc(String zipCode, Integer count);
+  public Optional<Restaurant> findByNameAndZipcode(String name, String zipcode);
+  public List<Restaurant> findByZipcode(String zipcode);
+  public List<Restaurant> findByZipcodeAndPeanutScoreIsNotNullOrderByPeanutScoreDesc(String zipcode);
+  public List<Restaurant> findByZipcodeAndEggScoreIsNotNullOrderByEggScoreDesc(String zipcode);
+  public List<Restaurant> findByZipcodeAndDairyScoreIsNotNullOrderByDairyScoreDesc(String zipcode);
 }
