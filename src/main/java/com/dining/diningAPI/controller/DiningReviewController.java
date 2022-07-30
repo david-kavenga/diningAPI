@@ -210,11 +210,19 @@ public class DiningReviewController {
       }
     }
 
-    restaurant.setPeanutScore((peanutScoreSum/peanutResponseCount));
-    restaurant.setEggScore((eggScoreSum/eggResponseCount));
-    restaurant.setDairyScore((dairyScoreSum/dairyResponseCount));
-    restaurant.setOverallScore((peanutScoreSum + eggScoreSum + dairyScoreSum)/(peanutResponseCount + eggResponseCount + dairyResponseCount));
-  
+    if(peanutResponseCount > 0){
+      restaurant.setPeanutScore((peanutScoreSum/peanutResponseCount));
+    }
+    if(eggResponseCount > 0){
+      restaurant.setEggScore((eggScoreSum/eggResponseCount));
+    }
+    if(eggResponseCount > 0){
+      restaurant.setDairyScore((dairyScoreSum/dairyResponseCount));
+    }
+    if((peanutResponseCount + eggResponseCount + dairyResponseCount) > 0){
+      restaurant.setOverallScore((peanutScoreSum + eggScoreSum + dairyScoreSum)/(peanutResponseCount + eggResponseCount + dairyResponseCount));
+    }
+    
     restaurantRepository.save(restaurant);
   }
 
